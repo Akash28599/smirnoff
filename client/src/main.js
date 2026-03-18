@@ -23,6 +23,9 @@ import singleCanImg from './assets/Can.png';
 import canBgImg from './assets/can_bg.png';
 import canTableImg from './assets/can_table.png';
 import chillGameBgImg from './assets/chill_game.png';
+import landingNewImg from './assets/landing_new.png';
+import eventPageBgImg from './assets/Event_page.png';
+import talentBgImg from './assets/talent_bg.png';
 
 // ==============================
 // BACKEND SERVICE
@@ -126,7 +129,10 @@ const assets = {
   singleCan: singleCanImg,
   canBg: canBgImg,
   canTable: canTableImg,
-  chillGameBg: chillGameBgImg
+  chillGameBg: chillGameBgImg,
+  landingNew: landingNewImg,
+  eventPageBg: eventPageBgImg,
+  talentBg: talentBgImg
 };
 
 // ==============================
@@ -334,14 +340,24 @@ const getPageContent = (pageId) => {
 // HOME PAGE — bigger hero image
 // ==============================
 const renderHome = () => `
-  <section class="hero fade-in">
-    <h1 class="hero-title">POP. <span class="text-red">ENTER.</span> CHILL.</h1>
-    <p class="hero-subtitle">Pop it. Play it. Show up. Win big.</p>
-    <button class="btn" data-link="code" style="position: relative; z-index: 10;">POP A CAN… WIN A POINT</button>
+  <section class="hero-landing fade-in" style="background-color: #ffffff; width: 100vw; margin-left: calc(-50vw + 50%); padding-top: calc(var(--header-height) + 4rem); display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; overflow-x: hidden;">
     
-    <div class="hero-image-container hero-image-large" style="margin-top: -6rem;">
-      <img src="${assets.heroLineup}" class="hero-image" alt="Smirnoff Ice Lineup">
+    <div style="z-index: 10; margin-bottom: 1rem; padding: 0 1rem;">
+      <h1 style="font-size: clamp(3rem, 8vw, 6.5rem); font-family: 'Montserrat', sans-serif; font-weight: 900; letter-spacing: -2px; color: #121212; margin-bottom: 0.8rem; line-height: 1;">
+        POP. <span style="color: var(--smirnoff-red);">ENTER.</span> CHILL.
+      </h1>
+      <p style="font-size: clamp(1rem, 3vw, 1.25rem); color: #777; margin-bottom: 2rem; font-weight: 500;">
+        Pop it. Play it. Show up. Win big.
+      </p>
+      <button class="btn" data-link="code" style="padding: 1rem 2.8rem; font-size: 0.95rem; border-radius: 50px; text-transform: uppercase; font-weight: bold; letter-spacing: 1px;">
+        POP A CAN… WIN A POINT
+      </button>
     </div>
+
+    <div style="width: 100%; position: relative;">
+      <img src="${assets.landingNew}" alt="Smirnoff Ice Bottles" style="width: 100%; height: auto; display: block; object-fit: contain; margin-top: -2rem;">
+    </div>
+    
   </section>
 `;
 
@@ -392,17 +408,20 @@ const renderCodeEntry = () => `
 // EVENTS PAGE
 // ==============================
 const renderEvents = () => `
-  <section class="container page-section fade-in">
-    <div class="page-header">
-      <p class="section-label">SMIRNOFF ICE PRESENTS</p>
-      <h1>Upcoming <span class="text-red">Chill</span> Events</h1>
-      <p>The hottest events, powered by the coldest vibes. Don't miss out.</p>
-    </div>
-
-    <div class="page-product-accent">
-      <img src="${assets.canTable}" alt="Smirnoff Ice Can on Table" class="page-product-banner" style="max-width: 1000px; width: 100%;">
+  <section class="events-hero fade-in" style="width: 100vw; margin-left: calc(-50vw + 50%); position: relative; min-height: 50vh; display: flex; align-items: center; justify-content: center; overflow: hidden; padding-top: var(--header-height);">
+    <!-- Stretched background image clipping out the watermark reliably at the limits -->
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 1;">
+      <img src="${assets.eventPageBg}" alt="Smirnoff Ice Events" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.06) translate(2%, 2%); filter: brightness(0.6);">
     </div>
     
+    <div class="page-header" style="position: relative; z-index: 2; padding: 3rem 1rem; color: white; text-align: center; margin-bottom: 0;">
+      <p class="section-label" style="box-shadow: 0 5px 15px rgba(0,0,0,0.5);">SMIRNOFF ICE PRESENTS</p>
+      <h1 style="color: white; font-size: clamp(2.5rem, 8vw, 4.5rem); text-shadow: 0 4px 20px rgba(0,0,0,0.8);">Upcoming <span style="color: var(--smirnoff-red);">Chill</span> Events</h1>
+      <p style="color: #ddd; font-size: 1.1rem; text-shadow: 0 2px 10px rgba(0,0,0,0.8);">The hottest events, powered by the coldest vibes. Don't miss out.</p>
+    </div>
+  </section>
+
+  <section class="container page-section fade-in" style="padding-top: 3rem; min-height: auto; padding-bottom: 2rem;">
     <div class="events-grid">
       ${state.eventsData.map(event => `
         <div class="event-card" data-event-id="${event.id}" data-action="view-event">
@@ -473,17 +492,14 @@ const renderEventDetail = () => {
 // TALENT ACADEMY PAGE
 // ==============================
 const renderTalent = () => `
-  <section class="container page-section fade-in">
-    <div class="page-header">
-      <p class="section-label">SMIRNOFF ICE</p>
-      <h1>Chill Talent <span class="text-red">Academy</span></h1>
-      <p>SHOW US HOW YOU CHILL. If you've got talent, prove it.</p>
+  <section class="talent-hero fade-in" style="width: 100vw; margin-left: calc(-50vw + 50%); position: relative; min-height: 60vh; display: flex; align-items: center; justify-content: center; overflow: hidden; padding-top: var(--header-height);">
+    <!-- Stretched background clipping out the watermark reliably -->
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 1;">
+      <img src="${assets.talentBg}" alt="Smirnoff Chill Talent Academy" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.06) translate(2%, 2%);">
     </div>
+  </section>
 
-    <div class="page-product-accent" style="margin-bottom: 2rem;">
-      <img src="${assets.singleCan}" alt="Smirnoff Ice Can" class="page-product-banner">
-    </div>
-    
+  <section class="container page-section fade-in" style="padding-top: 4rem; min-height: auto; padding-bottom: 3rem;">
     <div class="talent-grid">
       <div class="talent-card" data-action="submit-talent" data-category="dj">
         <img src="${assets.talentDj}" alt="DJ">
