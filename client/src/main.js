@@ -156,36 +156,12 @@ const state = {
   },
   talentFilter: 'all',
   eventsData: [
-    {
-      id: 1, title: 'AMVCA After-Party', date: 'April 5, 2026', venue: 'Eko Hotel, Lagos',
-      desc: 'The biggest party after the AMVCA awards. Smirnoff Ice exclusive.', icePass: true,
-      img: 'eventParty'
-    },
-    {
-      id: 2, title: 'Smirnoff Ice Party – Coming Soon', date: 'April 20, 2026', venue: 'Hard Rock Café, Lagos',
-      desc: 'A premium night of vibes, music, and unlimited chill. IcePass holders get VIP entry.',
-      icePass: true, img: 'eventFestival'
-    },
-    {
-      id: 3, title: 'Group Therapy Sessions', date: 'May 1, 2026', venue: 'The Chill Zone, Victoria Island',
-      desc: 'Good vibes only. Talk, laugh, chill with Smirnoff Ice.',
-      icePass: false, img: 'eventPopup'
-    },
-    {
-      id: 4, title: 'Chill Talent Academy Showcase', date: 'May 15, 2026', venue: 'Terra Kulture, Lagos',
-      desc: 'Watch the top talents from the Chill Talent Academy compete live.',
-      icePass: false, img: 'eventParty'
-    },
-    {
-      id: 5, title: 'South Social Club', date: 'June 1, 2026', venue: 'Muri Okunola Park, Lagos',
-      desc: 'An outdoor chill fest with live DJs, food, and Smirnoff Ice.',
-      icePass: false, img: 'eventFestival'
-    },
-    {
-      id: 6, title: 'Chill Buddies Meet & Greet', date: 'June 10, 2026', venue: 'Landmark Beach, Lagos',
-      desc: 'A special hangout for loyal Smirnoff Ice fans. Free entry with IcePass.',
-      icePass: true, img: 'eventPopup'
-    }
+    { id: 1, title: 'AMVCA After-Party', date: 'April 5, 2026', venue: 'Eko Hotel, Lagos', desc: 'The biggest party after the AMVCA awards. Smirnoff Ice exclusive.', icePass: true, img: 'eventParty' },
+    { id: 2, title: 'Smirnoff Ice Party – Coming Soon', date: 'April 20, 2026', venue: 'Hard Rock Café, Lagos', desc: 'A premium night of vibes, music, and unlimited chill. IcePass holders get VIP entry.', icePass: true, img: 'eventFestival' },
+    { id: 3, title: 'Group Therapy Sessions', date: 'May 1, 2026', venue: 'The Chill Zone, Victoria Island', desc: 'Good vibes only. Talk, laugh, chill with Smirnoff Ice.', icePass: false, img: 'eventPopup' },
+    { id: 4, title: 'Chill Talent Academy Showcase', date: 'May 15, 2026', venue: 'Terra Kulture, Lagos', desc: 'Watch the top talents from the Chill Talent Academy compete live.', icePass: false, img: 'eventParty' },
+    { id: 5, title: 'South Social Club', date: 'June 1, 2026', venue: 'Muri Okunola Park, Lagos', desc: 'An outdoor chill fest with live DJs, food, and Smirnoff Ice.', icePass: false, img: 'eventFestival' },
+    { id: 6, title: 'Chill Buddies Meet & Greet', date: 'June 10, 2026', venue: 'Landmark Beach, Lagos', desc: 'A special hangout for loyal Smirnoff Ice fans. Free entry with IcePass.', icePass: true, img: 'eventPopup' }
   ],
   mockTalents: [
     { id: 1, name: 'DJ Chill-X', category: 'dj', votes: 342, img: 'talentDj' },
@@ -210,8 +186,6 @@ const navigateTo = (pageId) => {
 
 const renderApp = () => {
   const app = document.querySelector('#app');
-
-  // NO dark mode — consistent light theme everywhere
   document.body.classList.remove('dark-mode');
 
   app.innerHTML = `
@@ -225,7 +199,6 @@ const renderApp = () => {
   attachListeners();
   window.scrollTo(0, 0);
 
-  // Draw spin wheel if on that page
   if (state.currentPage === 'spin-game') {
     setTimeout(drawWheel, 100);
   }
@@ -236,8 +209,8 @@ const renderApp = () => {
 // ==============================
 const renderHeader = () => `
   <header class="site-header">
-    <div class="container nav-container">
-      <div class="logo">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex justify-between items-center">
+      <div>
         <a href="#" data-link="home" class="smirnoff-badge">SMIRNOFF</a>
       </div>
       <button id="theme-toggle" class="theme-toggle-btn" title="Toggle Theme">🌙</button>
@@ -264,23 +237,26 @@ const renderHeader = () => `
 // ==============================
 const renderFooter = () => `
   <footer class="site-footer">
-    <div class="container">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="footer-how-it-works">
         <div class="footer-step" data-link="shop">
           <div class="footer-step-num">1</div>
           <span class="footer-step-text">Buy Smirnoff Ice</span>
         </div>
         <div class="footer-step-divider"></div>
+        <div class="footer-step-divider-mobile"></div>
         <div class="footer-step" data-link="code">
           <div class="footer-step-num">2</div>
           <span class="footer-step-text">Enter Code</span>
         </div>
         <div class="footer-step-divider"></div>
+        <div class="footer-step-divider-mobile"></div>
         <div class="footer-step" data-link="games">
           <div class="footer-step-num">3</div>
           <span class="footer-step-text">Earn Points</span>
         </div>
         <div class="footer-step-divider"></div>
+        <div class="footer-step-divider-mobile"></div>
         <div class="footer-step" data-link="rewards">
           <div class="footer-step-num">4</div>
           <span class="footer-step-text">Win Rewards</span>
@@ -337,66 +313,60 @@ const getPageContent = (pageId) => {
 };
 
 // ==============================
-// HOME PAGE — bigger hero image
+// HOME PAGE
 // ==============================
 const renderHome = () => `
-  <section class="hero-landing fade-in" style="background-color: #ffffff; width: 100vw; margin-left: calc(-50vw + 50%); padding-top: calc(var(--header-height) + 4rem); display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; overflow-x: hidden;">
-    
-    <div style="z-index: 10; margin-bottom: 1rem; padding: 0 1rem;">
-      <h1 style="font-size: clamp(3rem, 8vw, 6.5rem); font-family: 'Montserrat', sans-serif; font-weight: 900; letter-spacing: -2px; color: #121212; margin-bottom: 0.8rem; line-height: 1;">
-        POP. <span style="color: var(--smirnoff-red);">ENTER.</span> CHILL.
+  <section class="animate-fade-in w-full relative bg-white flex flex-col items-center text-center pt-24 sm:pt-28 md:pt-36 overflow-hidden">
+    <div class="z-10 mb-2 sm:mb-4 px-4">
+      <h1 class="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-accent font-black tracking-tight text-gray-900 mb-2 sm:mb-3 leading-none">
+        POP. <span class="text-smirnoff-red">ENTER.</span> CHILL.
       </h1>
-      <p style="font-size: clamp(1rem, 3vw, 1.25rem); color: #777; margin-bottom: 2rem; font-weight: 500;">
+      <p class="text-sm sm:text-lg md:text-xl text-gray-400 mb-4 sm:mb-8 font-medium">
         Pop it. Play it. Show up. Win big.
       </p>
-      <button class="btn" data-link="code" style="padding: 1rem 2.8rem; font-size: 0.95rem; border-radius: 50px; text-transform: uppercase; font-weight: bold; letter-spacing: 1px;">
+      <button class="btn text-xs sm:text-base py-3 sm:py-4 px-6 sm:px-10" data-link="code">
         POP A CAN… WIN A POINT
       </button>
     </div>
-
-    <div style="width: 100%; position: relative;">
-      <img src="${assets.landingNew}" alt="Smirnoff Ice Bottles" style="width: 100%; height: auto; display: block; object-fit: contain; margin-top: -2rem;">
+    <div class="w-full relative mt-4 sm:mt-0">
+      <img src="${assets.landingNew}" alt="Smirnoff Ice Bottles" class="w-full h-auto block object-contain">
     </div>
-    
   </section>
 `;
 
 // ==============================
-// ENTER CODE PAGE — premium bottle image
+// ENTER CODE PAGE
 // ==============================
 const renderCodeEntry = () => `
-  <section class="container code-entry-section fade-in">
-    <div class="code-visual">
-      <div class="red-accent" style="top: -30px; left: -20px; height: 380px; width: 200px; border-radius: 12px;"></div>
-      <img src="${assets.smirnoffPop}" class="code-visual-img" alt="Pop & Win">
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-20 items-center pt-28 sm:pt-32 pb-20 min-h-screen">
+    <div class="relative flex items-center justify-center order-first md:order-none">
+      <div class="absolute bg-smirnoff-red -skew-x-12 z-[-1] opacity-80 rounded-xl" style="top:-1.875rem;left:-1.25rem;height:23.75rem;width:12.5rem;"></div>
+      <img src="${assets.smirnoffPop}" class="w-full max-w-md rounded-2xl animate-float" alt="Pop & Win" style="box-shadow: 0 1.875rem 3.75rem rgba(0,0,0,0.12);">
     </div>
-    <div class="input-container">
+    <div class="flex flex-col gap-5">
       <p class="section-label">POP. ENTER. CHILL.</p>
-      <h1>ENTER YOUR<br>CHILL CODE</h1>
-      <p style="color: #666; font-size: 0.95rem;">Got a code under your cap? Let's see what the chill brings.</p>
-      
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl leading-tight">ENTER YOUR<br>CHILL CODE</h1>
+      <p class="text-gray-500 text-sm sm:text-base">Got a code under your cap? Let's see what the chill brings.</p>
       <input type="text" id="code-input" class="code-input" placeholder="ENTER CODE HERE" maxlength="12">
-      <button id="submit-code" class="btn btn-black" style="width: 100%; font-size: 1rem;">UNLOCK MY CHILL</button>
-      <div id="code-feedback" style="text-align: center;"></div>
-      
-      <p style="font-size: 0.75rem; color: #999; text-align: center; margin-top: 0.5rem;">
-        📖 <a href="#" style="color: var(--smirnoff-red); font-weight: 600; text-decoration: none;">How to find your code</a> — Look under the crown cork or label.
+      <button id="submit-code" class="btn btn-black w-full text-base">UNLOCK MY CHILL</button>
+      <div id="code-feedback" class="text-center"></div>
+      <p class="text-xs text-gray-400 text-center mt-2">
+        📖 <a href="#" class="text-smirnoff-red font-semibold no-underline">How to find your code</a> — Look under the crown cork or label.
       </p>
-      
-      <div class="rewards-preview-section">
-        <p class="section-sublabel">Potential Chill Rewards</p>
-        <div class="reward-preview">
-          <div class="reward-card">
-            <div class="reward-card-icon">🎫</div>
-            <div class="reward-card-label">VIP Pass</div>
+      <div class="mt-8 border-t border-gray-200 pt-6">
+        <p class="text-xs text-gray-400 font-extrabold uppercase tracking-wider mb-4">Potential Chill Rewards</p>
+        <div class="flex gap-4">
+          <div class="flex-1 p-6 text-center rounded-2xl bg-white border border-gray-100 transition-all duration-300 hover:-translate-y-1" style="box-shadow:0 0.125rem 0.5rem rgba(0,0,0,0.04);">
+            <div class="text-3xl mb-2">🎫</div>
+            <div class="text-xs font-extrabold uppercase tracking-wider text-gray-500">VIP Pass</div>
           </div>
-          <div class="reward-card">
-            <div class="reward-card-icon">🧥</div>
-            <div class="reward-card-label">Hoodie</div>
+          <div class="flex-1 p-6 text-center rounded-2xl bg-white border border-gray-100 transition-all duration-300 hover:-translate-y-1" style="box-shadow:0 0.125rem 0.5rem rgba(0,0,0,0.04);">
+            <div class="text-3xl mb-2">🧥</div>
+            <div class="text-xs font-extrabold uppercase tracking-wider text-gray-500">Hoodie</div>
           </div>
-          <div class="reward-card">
-            <div class="reward-card-icon">🎧</div>
-            <div class="reward-card-label">AirPods</div>
+          <div class="flex-1 p-6 text-center rounded-2xl bg-white border border-gray-100 transition-all duration-300 hover:-translate-y-1" style="box-shadow:0 0.125rem 0.5rem rgba(0,0,0,0.04);">
+            <div class="text-3xl mb-2">🎧</div>
+            <div class="text-xs font-extrabold uppercase tracking-wider text-gray-500">AirPods</div>
           </div>
         </div>
       </div>
@@ -408,21 +378,19 @@ const renderCodeEntry = () => `
 // EVENTS PAGE
 // ==============================
 const renderEvents = () => `
-  <section class="events-hero fade-in" style="width: 100vw; margin-left: calc(-50vw + 50%); position: relative; min-height: 50vh; display: flex; align-items: center; justify-content: center; overflow: hidden; padding-top: var(--header-height);">
-    <!-- Stretched background image clipping out the watermark reliably at the limits -->
-    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 1;">
-      <img src="${assets.eventPageBg}" alt="Smirnoff Ice Events" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.06) translate(2%, 2%); filter: brightness(0.6);">
+  <section class="animate-fade-in w-screen -ml-[50vw] left-[50%] relative min-h-[50vh] flex items-center justify-center overflow-hidden pt-[4.375rem]">
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-[1]">
+      <img src="${assets.eventPageBg}" alt="Smirnoff Ice Events" class="w-full h-full object-cover brightness-[0.6]" style="transform:scale(1.06) translate(2%,2%);">
     </div>
-    
-    <div class="page-header" style="position: relative; z-index: 2; padding: 3rem 1rem; color: white; text-align: center; margin-bottom: 0;">
-      <p class="section-label" style="box-shadow: 0 5px 15px rgba(0,0,0,0.5);">SMIRNOFF ICE PRESENTS</p>
-      <h1 style="color: white; font-size: clamp(2.5rem, 8vw, 4.5rem); text-shadow: 0 4px 20px rgba(0,0,0,0.8);">Upcoming <span style="color: var(--smirnoff-red);">Chill</span> Events</h1>
-      <p style="color: #ddd; font-size: 1.1rem; text-shadow: 0 2px 10px rgba(0,0,0,0.8);">The hottest events, powered by the coldest vibes. Don't miss out.</p>
+    <div class="relative z-[2] py-12 px-4 text-white text-center mb-0">
+      <p class="section-label" style="box-shadow:0 0.3125rem 0.9375rem rgba(0,0,0,0.5);">SMIRNOFF ICE PRESENTS</p>
+      <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white" style="text-shadow:0 0.25rem 1.25rem rgba(0,0,0,0.8);">Upcoming <span class="text-smirnoff-red">Chill</span> Events</h1>
+      <p class="text-gray-300 text-base sm:text-lg" style="text-shadow:0 0.125rem 0.625rem rgba(0,0,0,0.8);">The hottest events, powered by the coldest vibes. Don't miss out.</p>
     </div>
   </section>
 
-  <section class="container page-section fade-in" style="padding-top: 3rem; min-height: auto; padding-bottom: 2rem;">
-    <div class="events-grid">
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in pt-12 pb-8">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
       ${state.eventsData.map(event => `
         <div class="event-card" data-event-id="${event.id}" data-action="view-event">
           <img src="${assets[event.img]}" alt="${event.title}">
@@ -444,43 +412,39 @@ const renderEvents = () => `
 const renderEventDetail = () => {
   const event = state.eventsData.find(e => e.id === state.selectedEventId) || state.eventsData[0];
   return `
-    <section class="container page-section fade-in">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in pt-28 sm:pt-32 pb-20 min-h-screen">
       <button class="back-btn" data-link="events">← Back to Events</button>
-      
-      <div class="event-detail-grid">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 items-start">
         <div>
-          <img src="${assets[event.img]}" alt="${event.title}" class="event-detail-img">
+          <img src="${assets[event.img]}" alt="${event.title}" class="w-full rounded-2xl" style="box-shadow:0 1.25rem 3.125rem rgba(0,0,0,0.1);">
         </div>
         <div>
           ${event.icePass ? '<span class="event-tag">🧊 IcePass Required</span>' : '<span class="event-tag tag-open">Open Entry</span>'}
-          <h1 style="font-size: 2.5rem; margin: 1rem 0;">${event.title}</h1>
-          <p style="font-size: 1.1rem; color: #555; margin-bottom: 2rem;">${event.desc}</p>
-          
-          <div class="event-detail-meta">
-            <div class="event-meta-item">
-              <span class="event-meta-icon">📅</span>
+          <h1 class="text-2xl sm:text-3xl lg:text-4xl my-4">${event.title}</h1>
+          <p class="text-base sm:text-lg text-gray-500 mb-8">${event.desc}</p>
+          <div class="flex flex-col gap-4">
+            <div class="flex items-center gap-4">
+              <span class="text-2xl">📅</span>
               <div>
-                <p style="font-weight: 700;">${event.date}</p>
-                <p style="font-size: 0.85rem; color: #999;">Date</p>
+                <p class="font-bold">${event.date}</p>
+                <p class="text-sm text-gray-400">Date</p>
               </div>
             </div>
-            <div class="event-meta-item">
-              <span class="event-meta-icon">📍</span>
+            <div class="flex items-center gap-4">
+              <span class="text-2xl">📍</span>
               <div>
-                <p style="font-weight: 700;">${event.venue}</p>
-                <p style="font-size: 0.85rem; color: #999;">Venue</p>
+                <p class="font-bold">${event.venue}</p>
+                <p class="text-sm text-gray-400">Venue</p>
               </div>
             </div>
           </div>
-          
-          <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2rem;">
+          <div class="flex gap-3 sm:gap-4 flex-wrap mt-8">
             ${event.icePass ? '<button class="btn btn-gold btn-sm">USE ICEPASS</button>' : ''}
             <button class="btn btn-sm">BUY TICKET</button>
             <button class="btn btn-outline btn-sm">REDEEM POINTS</button>
           </div>
-
-          <div class="event-product-float">
-            <img src="${assets.smirnoffBottle}" alt="Smirnoff Ice" class="event-product-float-img">
+          <div class="mt-12 text-right hidden sm:block">
+            <img src="${assets.smirnoffBottle}" alt="Smirnoff Ice" class="inline-block max-w-[6rem] md:max-w-[7.5rem] animate-float" style="mix-blend-mode:multiply;filter:drop-shadow(0 0.625rem 1.25rem rgba(0,0,0,0.1));">
           </div>
         </div>
       </div>
@@ -492,15 +456,14 @@ const renderEventDetail = () => {
 // TALENT ACADEMY PAGE
 // ==============================
 const renderTalent = () => `
-  <section class="talent-hero fade-in" style="width: 100vw; margin-left: calc(-50vw + 50%); position: relative; min-height: 60vh; display: flex; align-items: center; justify-content: center; overflow: hidden; padding-top: var(--header-height);">
-    <!-- Stretched background clipping out the watermark reliably -->
-    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; z-index: 1;">
-      <img src="${assets.talentBg}" alt="Smirnoff Chill Talent Academy" style="width: 100%; height: 100%; object-fit: cover; transform: scale(1.06) translate(2%, 2%);">
+  <section class="animate-fade-in w-screen -ml-[50vw] left-[50%] relative min-h-[40vh] sm:min-h-[50vh] md:min-h-[60vh] flex items-center justify-center overflow-hidden pt-[4.375rem]">
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-[1]">
+      <img src="${assets.talentBg}" alt="Smirnoff Chill Talent Academy" class="w-full h-full object-cover" style="transform:scale(1.06) translate(2%,2%);">
     </div>
   </section>
 
-  <section class="container page-section fade-in" style="padding-top: 4rem; min-height: auto; padding-bottom: 3rem;">
-    <div class="talent-grid">
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in pt-12 md:pt-16 pb-12">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       <div class="talent-card" data-action="submit-talent" data-category="dj">
         <img src="${assets.talentDj}" alt="DJ">
         <div class="talent-card-overlay">
@@ -530,8 +493,7 @@ const renderTalent = () => `
         </div>
       </div>
     </div>
-    
-    <div style="display: flex; gap: 1.5rem; justify-content: center; margin-top: 3rem;">
+    <div class="flex gap-6 justify-center mt-12 flex-wrap">
       <button class="btn" data-link="gallery">VIEW GALLERY</button>
       <button class="btn btn-outline" data-link="leaderboard">LEADERBOARD</button>
     </div>
@@ -548,20 +510,18 @@ const renderGallery = () => {
     : state.mockTalents.filter(t => t.category === state.talentFilter);
 
   return `
-    <section class="container page-section fade-in">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in pt-28 sm:pt-32 pb-20 min-h-screen">
       <button class="back-btn" data-link="talent">← Back to Talent Academy</button>
-      <div class="page-header">
-        <h1>Talent <span class="text-red">Gallery</span></h1>
-        <p>Browse entries and vote for your favourite chiller.</p>
+      <div class="text-center mb-12">
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl mb-3">Talent <span class="text-smirnoff-red">Gallery</span></h1>
+        <p class="text-base text-gray-500 max-w-xl mx-auto">Browse entries and vote for your favourite chiller.</p>
       </div>
-      
-      <div class="tab-bar">
+      <div class="flex gap-2 mb-8 flex-wrap">
         ${categories.map(c => `
           <button class="tab-btn ${state.talentFilter === c ? 'active' : ''}" data-filter="${c}">${c === 'all' ? 'All' : c.toUpperCase()}</button>
         `).join('')}
       </div>
-      
-      <div class="gallery-grid">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         ${filtered.map(talent => `
           <div class="gallery-card">
             <img class="gallery-card-img" src="${assets[talent.img]}" alt="${talent.name}">
@@ -585,20 +545,19 @@ const renderGallery = () => {
 const renderLeaderboard = () => {
   const sorted = [...state.mockTalents].sort((a, b) => b.votes - a.votes);
   return `
-    <section class="container page-section fade-in">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in pt-28 sm:pt-32 pb-20 min-h-screen">
       <button class="back-btn" data-link="talent">← Back to Talent Academy</button>
-      <div class="page-header">
-        <h1>Top <span class="text-red">Chillers</span></h1>
-        <p>The most voted talents across all categories.</p>
+      <div class="text-center mb-12">
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl mb-3">Top <span class="text-smirnoff-red">Chillers</span></h1>
+        <p class="text-base text-gray-500 max-w-xl mx-auto">The most voted talents across all categories.</p>
       </div>
-      
       <div class="leaderboard-panel">
         <table class="leaderboard-table">
           <thead>
             <tr>
               <th>Rank</th>
               <th>Talent</th>
-              <th>Category</th>
+              <th class="hidden sm:table-cell">Category</th>
               <th>Votes</th>
             </tr>
           </thead>
@@ -610,9 +569,9 @@ const renderLeaderboard = () => {
                     ${i + 1}
                   </span>
                 </td>
-                <td style="font-weight: 700;">${t.name}</td>
-                <td style="text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; color: #888;">${t.category}</td>
-                <td style="font-weight: 800; color: var(--smirnoff-red);">${t.votes}</td>
+                <td class="font-bold">${t.name}</td>
+                <td class="hidden sm:table-cell uppercase text-xs tracking-wider text-gray-400">${t.category}</td>
+                <td class="font-extrabold text-smirnoff-red">${t.votes}</td>
               </tr>
             `).join('')}
           </tbody>
@@ -626,22 +585,18 @@ const renderLeaderboard = () => {
 // GAMES PAGE
 // ==============================
 const renderGames = () => `
-  <section class="container page-section fade-in" style="text-align: center;">
-    
-    <div class="page-header">
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in text-center pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-20">
+    <div class="text-center mb-12">
       <p class="section-label">PLAY & EARN</p>
-      <h1>PLAY. <span class="text-red">WIN.</span> REPEAT.</h1>
-      <p>Spin the wheel to earn more points.</p>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl mb-3">PLAY. <span class="text-smirnoff-red">WIN.</span> REPEAT.</h1>
+      <p class="text-base text-gray-500 max-w-xl mx-auto">Spin the wheel to earn more points.</p>
     </div>
-
-    <div style="position: relative; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; align-items: center;">
-      <img src="${assets.chillGameBg}" alt="Smirnoff Ice Chill Games" style="width: 100%; mix-blend-mode: darken; margin-bottom: 2rem;">
-      
-      <div style="margin-top: 0; position: relative; z-index: 10;">
-        <button class="btn" data-link="spin-game" style="font-size: 1.2rem; padding: 1.2rem 4rem; box-shadow: 0 10px 30px rgba(211,47,47,0.4);">SPIN THE CHILL WHEEL</button>
+    <div class="relative max-w-3xl mx-auto flex flex-col items-center">
+      <img src="${assets.chillGameBg}" alt="Smirnoff Ice Chill Games" class="w-full mb-8" style="mix-blend-mode:darken;">
+      <div class="relative z-10">
+        <button class="btn text-base sm:text-lg py-4 sm:py-5 px-8 sm:px-16" data-link="spin-game" style="box-shadow:0 0.625rem 1.875rem rgba(211,47,47,0.4);">SPIN THE CHILL WHEEL</button>
       </div>
     </div>
-    
   </section>
 `;
 
@@ -649,24 +604,23 @@ const renderGames = () => `
 // SPIN WHEEL GAME
 // ==============================
 const renderSpinGame = () => `
-  <section class="container page-section fade-in">
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in pt-28 sm:pt-32 pb-20 min-h-screen">
     <button class="back-btn" data-link="games">← Back to Games</button>
-    <div class="page-header">
-      <h1>Spin The <span class="text-red">Chill</span> Wheel</h1>
-      <p>Let's see how lucky your chill is…</p>
+    <div class="text-center mb-12">
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl mb-3">Spin The <span class="text-smirnoff-red">Chill</span> Wheel</h1>
+      <p class="text-base text-gray-500">Let's see how lucky your chill is…</p>
     </div>
-    
-    <div class="spin-container">
-      <div class="spin-layout">
-        <div class="spin-left">
-          <img src="${assets.smirnoffBottle}" alt="Smirnoff Ice" class="spin-product-img">
+    <div class="flex flex-col items-center gap-8">
+      <div class="flex items-center gap-8 md:gap-12 justify-center">
+        <div class="hidden md:block">
+          <img src="${assets.smirnoffBottle}" alt="Smirnoff Ice" class="max-w-[11.25rem] animate-float" style="mix-blend-mode:multiply;filter:drop-shadow(0 0.9375rem 1.875rem rgba(0,0,0,0.1));">
         </div>
-        <div class="spin-center">
+        <div class="flex flex-col items-center">
           <div class="wheel-wrapper">
             <div class="wheel-pointer"></div>
             <canvas id="spin-wheel" class="wheel-canvas" width="320" height="320"></canvas>
           </div>
-          <button id="spin-btn" class="btn" style="font-size: 1.1rem; padding: 1.2rem 3rem; margin-top: 2rem;">🎰 SPIN THE CHILL WHEEL</button>
+          <button id="spin-btn" class="btn text-base sm:text-lg py-4 sm:py-5 px-8 sm:px-12 mt-8">🎰 SPIN THE CHILL WHEEL</button>
           <div id="spin-result"></div>
         </div>
       </div>
@@ -678,18 +632,16 @@ const renderSpinGame = () => `
 // SHOP PAGE
 // ==============================
 const renderShop = () => `
-  <section class="container page-section fade-in">
-    <div class="page-header">
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in pt-28 sm:pt-32 pb-20 min-h-screen">
+    <div class="text-center mb-12">
       <p class="section-label">GET YOUR CHILL</p>
-      <h1>Shop <span class="text-red">Smirnoff Ice</span></h1>
-      <p>Get your bottles delivered. Choose your preferred store.</p>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl mb-3">Shop <span class="text-smirnoff-red">Smirnoff Ice</span></h1>
+      <p class="text-base text-gray-500 max-w-xl mx-auto">Get your bottles delivered. Choose your preferred store.</p>
     </div>
-
-    <div class="shop-product-hero">
-      <img src="${assets.canBg}" alt="Smirnoff Ice Collection" class="shop-product-hero-img">
+    <div class="text-center mb-12">
+      <img src="${assets.canBg}" alt="Smirnoff Ice Collection" class="max-w-xl w-4/5 mx-auto" style="mix-blend-mode:darken;filter:drop-shadow(0 0.9375rem 2.1875rem rgba(0,0,0,0.1));">
     </div>
-    
-    <div class="shop-grid">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-2xl mx-auto">
       <div class="shop-card">
         <div class="shop-card-logo">🛒</div>
         <h3>Jumia</h3>
@@ -710,7 +662,7 @@ const renderShop = () => `
 // USER PROFILE PAGE
 // ==============================
 const renderUserProfile = () => `
-  <section class="container page-section fade-in">
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in pt-28 sm:pt-32 pb-20 min-h-screen">
     <div class="profile-header">
       <div class="profile-avatar">${state.user.name.charAt(0)}</div>
       <div class="profile-info">
@@ -719,8 +671,7 @@ const renderUserProfile = () => `
       </div>
       <img src="${assets.smirnoffBottle}" alt="Smirnoff Ice" class="profile-product-img">
     </div>
-    
-    <div class="stats-grid">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-12">
       <div class="stat-card">
         <div class="stat-value">${state.user.points.toLocaleString()}</div>
         <div class="stat-label">Point Balance</div>
@@ -738,13 +689,11 @@ const renderUserProfile = () => `
         <div class="stat-label">Rewards Claimed</div>
       </div>
     </div>
-    
-    <div style="display: flex; gap: 1.5rem; margin-bottom: 3rem; flex-wrap: wrap;">
+    <div class="flex gap-6 mb-12 flex-wrap">
       <button class="btn btn-sm" data-link="rewards">VIEW REWARDS</button>
       <button class="btn btn-sm btn-outline">REDEMPTION HISTORY</button>
     </div>
-    
-    <h3 style="margin-bottom: 1.5rem; font-size: 1rem;">Recent Activity</h3>
+    <h3 class="mb-6 text-base">Recent Activity</h3>
     <div class="history-panel">
       <ul class="history-list">
         ${state.user.history.map(item => `
@@ -767,14 +716,13 @@ const renderUserProfile = () => `
 // REWARDS PAGE
 // ==============================
 const renderRewards = () => `
-  <section class="container page-section fade-in">
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-fade-in pt-28 sm:pt-32 pb-20 min-h-screen">
     <button class="back-btn" data-link="user">← Back to Profile</button>
-    <div class="page-header">
-      <h1>Your <span class="text-red">Rewards</span></h1>
-      <p>Redeem your points for exclusive Smirnoff Ice rewards.</p>
+    <div class="text-center mb-12">
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl mb-3">Your <span class="text-smirnoff-red">Rewards</span></h1>
+      <p class="text-base text-gray-500 max-w-xl mx-auto">Redeem your points for exclusive Smirnoff Ice rewards.</p>
     </div>
-    
-    <div class="rewards-grid">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
       <div class="reward-item">
         <div class="reward-item-icon">🎫</div>
         <h3>VIP Event Pass</h3>
@@ -863,7 +811,6 @@ const drawWheel = () => {
     ctx.lineWidth = 2;
     ctx.stroke();
 
-    // Text
     ctx.save();
     ctx.translate(cx, cy);
     ctx.rotate(startAngle + arc / 2);
@@ -874,7 +821,6 @@ const drawWheel = () => {
     ctx.restore();
   }
 
-  // Center circle
   ctx.beginPath();
   ctx.arc(cx, cy, 25, 0, 2 * Math.PI);
   ctx.fillStyle = '#FFF';
@@ -893,18 +839,17 @@ const showSubmitModal = (category) => {
   modal.className = 'modal-overlay';
   modal.id = 'talent-modal';
   modal.innerHTML = `
-    <div class="modal-content slide-up">
+    <div class="modal-content animate-slide-up">
       <button class="modal-close" id="close-modal">✕</button>
-      <h2 style="margin-bottom: 0.5rem;">Submit Your Entry</h2>
-      <p style="color: #888; margin-bottom: 2rem; font-size: 0.9rem;">Category: <strong style="color: var(--smirnoff-red); text-transform: uppercase;">${category}</strong></p>
-      
+      <h2 class="mb-2">Submit Your Entry</h2>
+      <p class="text-gray-400 mb-8 text-sm">Category: <strong class="text-smirnoff-red uppercase">${category}</strong></p>
       <div class="form-group">
         <label>Your Name / Stage Name</label>
         <input type="text" id="talent-name" placeholder="e.g. DJ Chill-X">
       </div>
       <div class="form-group">
         <label>Short Bio</label>
-        <textarea id="talent-bio" rows="3" placeholder="Tell us about your talent..." style="resize: none;"></textarea>
+        <textarea id="talent-bio" rows="3" placeholder="Tell us about your talent..." class="resize-none"></textarea>
       </div>
       <div class="form-group">
         <label>Video Link (YouTube / Instagram / TikTok)</label>
@@ -914,9 +859,8 @@ const showSubmitModal = (category) => {
         <label>Phone Number</label>
         <input type="tel" id="talent-phone" placeholder="080XXXXXXXX" value="${state.user.phone}">
       </div>
-      
-      <button id="submit-talent-btn" class="btn" style="width: 100%;">SUBMIT MY ENTRY</button>
-      <div id="talent-feedback" style="margin-top: 1rem; text-align: center;"></div>
+      <button id="submit-talent-btn" class="btn w-full">SUBMIT MY ENTRY</button>
+      <div id="talent-feedback" class="mt-4 text-center"></div>
     </div>
   `;
   document.body.appendChild(modal);
@@ -932,21 +876,21 @@ const showSubmitModal = (category) => {
     const feedback = document.getElementById('talent-feedback');
 
     if (!name || !bio || !link) {
-      feedback.innerHTML = '<p style="color: var(--smirnoff-red);">Please fill all fields.</p>';
+      feedback.innerHTML = '<p class="text-smirnoff-red">Please fill all fields.</p>';
       return;
     }
 
     const result = await BackendService.submitTalent({ name, bio, link, phone, category });
     if (result.success) {
       feedback.innerHTML = `
-        <div style="background: rgba(76,175,80,0.08); border: 1px solid rgba(76,175,80,0.25); padding: 1rem; border-radius: 12px;">
-          <p style="color: #4CAF50; font-weight: 700;">🎉 Your entry has been received!</p>
-          <p style="font-size: 0.85rem; color: #888; margin-top: 0.5rem;">Share your link to get votes.</p>
+        <div class="bg-green-50 border border-green-200 p-4 rounded-xl">
+          <p class="text-green-600 font-bold">🎉 Your entry has been received!</p>
+          <p class="text-sm text-gray-400 mt-2">Share your link to get votes.</p>
         </div>
       `;
       document.getElementById('submit-talent-btn').style.display = 'none';
     } else {
-      feedback.innerHTML = `<p style="color: var(--smirnoff-red);">${result.message}</p>`;
+      feedback.innerHTML = `<p class="text-smirnoff-red">${result.message}</p>`;
     }
   });
 };
@@ -1012,7 +956,7 @@ const attachListeners = () => {
     submitBtn.addEventListener('click', async () => {
       const code = codeInput.value.trim();
       if (!code) {
-        feedback.innerHTML = '<p style="color: var(--smirnoff-red); font-weight: 600;">Please enter a code.</p>';
+        feedback.innerHTML = '<p class="text-smirnoff-red font-semibold">Please enter a code.</p>';
         return;
       }
 
@@ -1025,17 +969,17 @@ const attachListeners = () => {
         state.user.points += result.points;
         if (result.prize) {
           feedback.innerHTML = `
-            <div style="background: rgba(255,215,0,0.08); border: 2px solid rgba(255,215,0,0.3); padding: 1.5rem; border-radius: 16px; animation: slideUp 0.5s ease;">
-              <p style="font-size: 1.5rem; margin-bottom: 0.5rem;">🎉 You just won!</p>
-              <p style="font-weight: 800; font-size: 1.2rem; color: #FFA000;">${result.prize}</p>
-              <p style="font-size: 0.85rem; color: #888; margin-top: 0.5rem;">Your chill just got real.</p>
+            <div class="bg-yellow-50 border-2 border-yellow-200 p-6 rounded-2xl animate-slide-up">
+              <p class="text-2xl mb-2">🎉 You just won!</p>
+              <p class="font-extrabold text-xl text-yellow-600">${result.prize}</p>
+              <p class="text-sm text-gray-400 mt-2">Your chill just got real.</p>
             </div>
           `;
         } else {
           feedback.innerHTML = `
-            <div style="background: rgba(76,175,80,0.08); border: 2px solid rgba(76,175,80,0.2); padding: 1.5rem; border-radius: 16px; animation: slideUp 0.5s ease;">
-              <p style="font-size: 1.2rem; font-weight: 800; color: #4CAF50;">✅ You just earned ${result.points} Ice Points!</p>
-              <p style="font-size: 0.85rem; color: #888; margin-top: 0.5rem;">Keep popping. Keep winning.</p>
+            <div class="bg-green-50 border-2 border-green-200 p-6 rounded-2xl animate-slide-up">
+              <p class="text-xl font-extrabold text-green-500">✅ You just earned ${result.points} Ice Points!</p>
+              <p class="text-sm text-gray-400 mt-2">Keep popping. Keep winning.</p>
             </div>
           `;
         }
@@ -1043,8 +987,8 @@ const attachListeners = () => {
         showToast(`+${result.points} points added!`);
       } else {
         feedback.innerHTML = `
-          <div style="background: rgba(211,47,47,0.06); border: 2px solid rgba(211,47,47,0.2); padding: 1.5rem; border-radius: 16px; animation: slideUp 0.5s ease;">
-            <p style="font-weight: 700; color: var(--smirnoff-red);">❌ ${result.message || "Hmm… that code isn't chilling. Try again."}</p>
+          <div class="bg-red-50 border-2 border-red-200 p-6 rounded-2xl animate-slide-up">
+            <p class="font-bold text-smirnoff-red">❌ ${result.message || "Hmm… that code isn't chilling. Try again."}</p>
           </div>
         `;
       }
@@ -1121,15 +1065,15 @@ const attachListeners = () => {
 
         if (won.value > 0) {
           resultDiv.innerHTML = `
-            <div class="spin-result" style="background: rgba(76,175,80,0.08); border: 2px solid rgba(76,175,80,0.2); margin-top: 1.5rem;">
-              <p style="font-size: 1.4rem; color: #4CAF50; font-weight: 800; margin-bottom: 0.5rem;">You just iced that round. ${won.value} Points added.</p>
-              <button class="btn btn-sm btn-outline" style="margin-top: 1rem; border-color: #4CAF50; color: #4CAF50;" onclick="alert('Results shared to your social media!')">📤 Share Results</button>
+            <div class="spin-result bg-green-50 border-2 border-green-200 mt-6">
+              <p class="text-xl text-green-500 font-extrabold mb-2">You just iced that round. ${won.value} Points added.</p>
+              <button class="btn btn-sm btn-outline border-green-500 text-green-500 mt-4" onclick="alert('Results shared to your social media!')">📤 Share Results</button>
             </div>
           `;
           showToast(`+${won.value} points from the spin wheel!`);
         } else {
           resultDiv.innerHTML = `
-            <div class="spin-result" style="background: rgba(211,47,47,0.06); border: 2px solid rgba(211,47,47,0.15); margin-top: 1.5rem;">
+            <div class="spin-result bg-red-50 border-2 border-red-200 mt-6">
               <p>Better luck next spin! 🧊</p>
             </div>
           `;
