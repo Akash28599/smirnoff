@@ -4,8 +4,8 @@
   "description": "Root package for deployment",
   "scripts": {
     "start": "node server/server.js",
-    "build": "cd client && npm install && npm run build && cd ../server && npm install",
-    "install": "npm run build"
+    "install": "npm install --prefix client && npm install --prefix server",
+    "build": "npm run build --prefix client"
   },
   "engines": {
     "node": ">=18"
