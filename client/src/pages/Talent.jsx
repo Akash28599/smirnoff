@@ -43,7 +43,7 @@ export default function Talent() {
           ))}
         </div>
         <div className="flex gap-6 justify-center mt-12 flex-wrap">
-          <Link to="/gallery" className="btn">VIEW GALLERY</Link>
+          <Link to="/gallery" className="btn">VIEW TOP CHILLERS</Link>
           <Link to="/leaderboard" className="btn btn-outline">LEADERBOARD</Link>
         </div>
       </section>
