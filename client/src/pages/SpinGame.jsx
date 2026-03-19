@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppContext } from '../context/AppContext';
 import assets from '../assets';
+import BackendService from '../services/BackendService';
 
 const wheelSegments = [
   { label: '5 pts', color: '#D32F2F', value: 5 },
@@ -15,7 +16,7 @@ const wheelSegments = [
 ];
 
 export default function SpinGame() {
-  const { addPoints, showToast } = useAppContext();
+  const { user, setUser, showToast } = useAppContext();
   const canvasRef = useRef(null);
   const [spinning, setSpinning] = useState(false);
   const [result, setResult] = useState(null);
@@ -66,29 +67,48 @@ export default function SpinGame() {
     drawWheel();
   }, [drawWheel]);
 
-  const handleSpin = () => {
-    if (spinning) return;
+  const handleSpin = async () => {
+    if (spinning || !user) return;
     setSpinning(true);
     setResult(null);
 
+    // 1. Get the spin result from the backend
+    const spinResult = await BackendService.spinWheel(user.phone);
+    if (!spinResult.success) {
+      showToast('Spin failed. Please try again.', 'error');
+      setSpinning(false);
+      return;
+    }
+
+    const wonPoints = spinResult.points;
     const canvas = canvasRef.current;
-    const degrees = 1800 + Math.floor(Math.random() * 360);
+
+    // 2. Find which segment index correlates to the won points to land on it visually
+    const possibleSegments = wheelSegments
+      .map((s, i) => ({ val: s.value, idx: i }))
+      .filter(s => s.val === wonPoints);
+    
+    // Pick one at random if multiple segments have the same point value
+    const targetSegmentIndex = possibleSegments[Math.floor(Math.random() * possibleSegments.length)].idx;
+
+    // 3. Calculate rotation
+    // We want targetSegmentIndex to land at the top (270 degrees)
+    // Formula: (targetIndex * 45) + rotation = 270 => rotation = 270 - (targetIndex * 45)
+    // We add 22.5 to land in the middle of the segment
+    const targetNormalizedDeg = (270 - (targetSegmentIndex * 45 + 22.5) + 360) % 360;
+    const degrees = 1800 + targetNormalizedDeg; // 5 full spins + offset
+
     canvas.style.transition = 'transform 4s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
     canvas.style.transform = `rotate(${degrees}deg)`;
 
-    setTimeout(() => {
-      const normalizedDeg = degrees % 360;
-      // The pointer is at the top (270 degrees). 
-      // To find the segment under the pointer, we calculate which original degree ended up at 270.
-      const actualDegree = (270 - normalizedDeg + 360) % 360;
-      const segmentIndex = Math.floor(actualDegree / (360 / wheelSegments.length));
-      const won = wheelSegments[segmentIndex];
+    setTimeout(async () => {
+      // 4. Update the user state from the DB to reflect new points/history
+      const updatedUser = await BackendService.getUser(user.phone);
+      if (updatedUser) setUser(updatedUser);
 
-      addPoints(won.value);
-
-      if (won.value > 0) {
-        setResult({ type: 'win', value: won.value });
-        showToast(`+${won.value} points from the spin wheel!`);
+      if (wonPoints > 0) {
+        setResult({ type: 'win', value: wonPoints });
+        showToast(`+${wonPoints} points from the spin wheel!`);
       } else {
         setResult({ type: 'lose' });
       }

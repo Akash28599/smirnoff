@@ -58,6 +58,18 @@ const BackendService = {
       return [];
     }
   },
+  redeemPoints: async (phone, cost, label) => {
+    try {
+      const res = await fetch(`${API_BASE}/redeem`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, cost, label })
+      });
+      return await res.json();
+    } catch (err) {
+      return { success: false, message: 'Server unreachable.' };
+    }
+  },
   spinWheel: async (phone) => {
     try {
       const res = await fetch(`${API_BASE}/games/spin`, {

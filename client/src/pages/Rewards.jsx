@@ -1,13 +1,34 @@
 import { Link } from 'react-router-dom';
+import { useAppContext } from '../context/AppContext';
+import BackendService from '../services/BackendService';
 
 export default function Rewards() {
+  const { user, setUser, showToast } = useAppContext();
+
+  const handleRedeem = async (reward) => {
+    if (user.points >= reward.cost) {
+      const result = await BackendService.redeemPoints(user.phone, reward.cost, reward.title);
+      if (result.success) {
+        // Fetch updated user data to sync points & history from server
+        const updatedUser = await BackendService.getUser(user.phone);
+        if (updatedUser) setUser(updatedUser);
+        
+        showToast(`${reward.title} Redeemed! 🎉`);
+      } else {
+        showToast(result.message || 'Redemption failed.', 'error');
+      }
+    } else {
+      showToast(`Not enough points for ${reward.title}. 🧊`, 'error');
+    }
+  };
+
   const rewards = [
-    { icon: '🎫', title: 'VIP Event Pass', desc: 'Skip the queue at any Smirnoff Ice event.', cost: 500, available: true },
-    { icon: '🧥', title: 'Smirnoff Ice Hoodie', desc: 'Premium limited edition branded hoodie.', cost: 1000, available: true },
-    { icon: '🎧', title: 'Wireless Earbuds', desc: 'Premium wireless earbuds with noise cancellation.', cost: 2000, available: false },
-    { icon: '🎉', title: 'Party Starter Pack', desc: 'A crate of Smirnoff Ice delivered to your door.', cost: 750, available: true },
-    { icon: '✈️', title: 'All-Expense Trip', desc: 'Win a trip for 2 to the Smirnoff Ice Beach Festival.', cost: 5000, available: false },
-    { icon: '🎤', title: 'Studio Session', desc: '1-hour studio recording session at a top Lagos studio.', cost: 1500, available: true },
+    { icon: '🎫', title: 'VIP Event Pass', desc: 'Skip the queue at any Smirnoff Ice event.', cost: 500 },
+    { icon: '🧥', title: 'Smirnoff Ice Hoodie', desc: 'Premium limited edition branded hoodie.', cost: 1000 },
+    { icon: '🎧', title: 'Wireless Earbuds', desc: 'Premium wireless earbuds with noise cancellation.', cost: 2000 },
+    { icon: '🎉', title: 'Party Starter Pack', desc: 'A crate of Smirnoff Ice delivered to your door.', cost: 750 },
+    { icon: '✈️', title: 'All-Expense Trip', desc: 'Win a trip for 2 to the Smirnoff Ice Beach Festival.', cost: 5000 },
+    { icon: '🎤', title: 'Studio Session', desc: '1-hour studio recording session at a top Lagos studio.', cost: 1500 },
   ];
 
   return (
@@ -29,10 +50,10 @@ export default function Rewards() {
             <p>{reward.desc}</p>
             <div className="reward-cost">{reward.cost} Points</div>
             <br />
-            {reward.available ? (
-              <button className="btn btn-sm">REDEEM</button>
+            {user.points >= reward.cost ? (
+              <button className="btn btn-sm" onClick={() => handleRedeem(reward)}>REDEEM</button>
             ) : (
-              <button className="btn btn-sm btn-outline">NOT ENOUGH POINTS</button>
+              <button className="btn btn-sm btn-outline" disabled>NOT ENOUGH POINTS</button>
             )}
           </div>
         ))}

@@ -207,6 +207,30 @@ app.get('/api/user/:phone', (req, res) => {
   res.json({ ...user, history });
 });
 
+// --- Points Redemption ---
+app.post('/api/redeem', (req, res) => {
+  const { phone, cost, label } = req.body;
+
+  if (!phone || !cost || !label) {
+    return res.json({ success: false, message: 'Missing redemption details.' });
+  }
+
+  const user = getOrCreateUser(phone);
+  if (user.points < cost) {
+    return res.json({ success: false, message: 'Insufficient points balance.' });
+  }
+
+  // Deduct points
+  db.prepare('UPDATE users SET points = points - ? WHERE phone = ?').run(cost, phone);
+
+  // Log transaction
+  db.prepare('INSERT INTO transactions (phone, type, label, points) VALUES (?, ?, ?, ?)').run(
+    phone, 'redeem', `${label} Redeemed`, -cost
+  );
+
+  res.json({ success: true, message: `${label} successfully redeemed!` });
+});
+
 // --- Talent: Submit ---
 app.post('/api/talent/submit', (req, res) => {
   const { name, bio, link, phone, category } = req.body;

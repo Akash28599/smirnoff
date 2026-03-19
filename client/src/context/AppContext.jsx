@@ -47,6 +47,17 @@ export function AppProvider({ children }) {
     setUser(prev => ({ ...prev, points: prev.points + pts }));
   }, []);
 
+  const redeemPoints = useCallback((cost, label) => {
+    setUser(prev => ({
+      ...prev,
+      points: prev.points - cost,
+      history: [
+        { type: 'redeem', label: `${label} Redeemed`, points: -cost, date: new Date().toISOString().split('T')[0] },
+        ...prev.history
+      ]
+    }));
+  }, []);
+
   const voteTalent = useCallback((id) => {
     setTalents(prev => prev.map(t => t.id === id ? { ...t, votes: t.votes + 1 } : t));
   }, []);
@@ -73,6 +84,7 @@ export function AppProvider({ children }) {
     user,
     setUser,
     addPoints,
+    redeemPoints,
     eventsData,
     talents,
     setTalents,

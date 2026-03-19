@@ -519,17 +519,33 @@
 
 /* ===== DARK MODE ===== */
 body.dark-mode {
-  @apply bg-gray-900 text-white;
+  @apply bg-black text-white;
 }
 body.dark-mode .site-header {
-  background: rgba(18, 18, 18, 0.95);
-  border-bottom: 0.0625rem solid rgba(255, 255, 255, 0.1);
+  @apply bg-[#0c0c0c]/95;
+  border-bottom: 0.0625rem solid rgba(255, 255, 255, 0.05);
 }
 body.dark-mode .nav-links a { @apply text-white; }
-body.dark-mode .nav-links.open { background: rgba(18, 18, 18, 0.98); }
+body.dark-mode .nav-links.open { background: rgba(0, 0, 0, 0.98); }
 body.dark-mode .hamburger span { @apply bg-white; }
+body.dark-mode .site-footer { 
+  @apply bg-[#050505]; 
+  border-top: 1px solid rgba(255,255,255,0.05); 
+}
+body.dark-mode .footer-how-it-works { 
+  @apply bg-[#0c0c0c]; 
+  border: 1px solid rgba(255,255,255,0.05); 
+}
+body.dark-mode .footer-step-text { @apply text-gray-300; }
+body.dark-mode .footer-links-col h4 { @apply text-white; }
 body.dark-mode .footer-links-col a { @apply text-gray-500; }
-body.dark-mode .footer-step-divider { @apply opacity-30; }
+body.dark-mode .footer-step-divider { @apply opacity-10; }
+body.dark-mode .footer-bottom { border-top: 1px solid rgba(255,255,255,0.05); }
+
+/* --- SMOOTH TRANSITION --- */
+body, .site-header, .site-footer, .footer-how-it-works, a, p, h1, h2, h3, h4 {
+  transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
 
 /* ===== MOBILE NAV ===== */
 @media (max-width: 768px) {
