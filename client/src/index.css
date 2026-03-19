@@ -45,13 +45,13 @@
 
   /* --- Smirnoff Badge / Logo --- */
   .smirnoff-badge {
-    @apply inline-block bg-smirnoff-red text-white py-1.5 px-5 font-accent font-black uppercase text-lg tracking-wider no-underline transition-transform duration-300 hover:scale-105;
+    @apply inline-block bg-smirnoff-red text-white py-1 px-3 sm:py-1.5 sm:px-5 font-accent font-black uppercase text-base sm:text-lg tracking-wider no-underline transition-transform duration-300 hover:scale-105;
     border-top-left-radius: 50% 15%;
     border-top-right-radius: 50% 15%;
     border-bottom-left-radius: 50% 15%;
     border-bottom-right-radius: 50% 15%;
     box-shadow: 0 0.25rem 0.625rem rgba(211, 47, 47, 0.4);
-    letter-spacing: 0.125rem;
+    letter-spacing: 0.09375rem;
   }
 
   /* --- Section Label (arched banner) --- */
@@ -152,12 +152,16 @@
     @apply hidden flex-col cursor-pointer z-[1001];
     gap: 0.3125rem;
     padding: 0.3125rem;
+    flex-shrink: 0;
   }
   .hamburger span {
     @apply bg-gray-900 rounded;
-    width: 1.75rem;
+    width: 1.5rem;
     height: 0.1875rem;
     transition: all 0.3s ease;
+  }
+  .nav-controls {
+    @apply flex items-center flex-shrink-0;
   }
 
   /* --- Code Entry --- */
@@ -637,11 +641,15 @@ body, .site-header, .site-footer, .footer-how-it-works, a, p, h1, h2, h3, h4 {
   }
   .nav-links.open { @apply flex; }
   .hamburger {
-    @apply flex absolute;
-    right: 1.5rem;
+    @apply flex;
+    margin-right: 0;
   }
   .theme-toggle-btn {
-    margin-right: 4.5rem;
+    @apply flex;
+    margin-right: 0;
+  }
+  .nav-controls {
+    @apply gap-3;
   }
   .profile-header {
     @apply flex-col text-center;
